@@ -38,9 +38,6 @@ wheels/
 # VSCode
 .vscode/
 
-# Claude
-.claude/
-
 # Jupyter Notebook
 .ipynb_checkpoints
 

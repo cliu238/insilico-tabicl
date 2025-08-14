@@ -1,39 +1,55 @@
 # Create PRP
 
-## Feature file: $ARGUMENTS
+## Feature file for task ID: $ARGUMENTS
 
-Generate a complete PRP for general feature implementation with thorough research. Ensure context is passed to the AI agent to enable self-validation and iterative refinement. Read the feature file first to understand what needs to be created, how the examples provided help, and any other considerations.
+Generate a complete PRP from @TASK.md for general feature implementation with thorough research. Ensure context is passed to the AI agent to enable self-validation and iterative refinement. Read the feature file first to understand what needs to be created, how the examples provided help, and any other considerations.
 
-The AI agent only gets the context you are appending to the PRP and training data. Assuma the AI agent has access to the codebase and the same knowledge cutoff as you, so its important that your research findings are included or referenced in the PRP. The Agent has Websearch capabilities, so pass urls to documentation and examples.
+The AI agent only gets the context you are appending to the PRP and training data. Assume the AI agent has access to the codebase and the same knowledge cutoff as you, so its important that your research findings are included or referenced in the PRP. The Agent has Websearch capabilities, so pass urls to documentation and examples.
 
 ## Research Process
 
-1. **Codebase Analysis**
+1. **Project Understanding**
+   - Read PLANNING.md to understand the overall project architecture, goals, and vision
+   - Understand how features interconnect and the big picture strategy
+   - Identify key architectural decisions and constraints
+
+2. **Task Analysis**
+   - Read TASK.md to understand the specific assigned task
+   - Review completed tasks to see what has been implemented
+   - Identify what still needs to be done and any dependencies
+   - Understand the task's priority and relationship to other tasks
+
+3. **Codebase Analysis**
    - Search for similar features/patterns in the codebase
    - Identify files to reference in PRP
    - Note existing conventions to follow
    - Check test patterns for validation approach
 
-2. **External Research**
+4. **User Clarification** (if needed)
+   - Specific patterns to mirror and where to find them?
+   - Integration requirements and where to find them?
+   - Any ambiguities in the task requirements?
+
+5. **External Research** (as needed)
    - Search for similar features/patterns online
    - Library documentation (include specific URLs)
    - Implementation examples (GitHub/StackOverflow/blogs)
    - Best practices and common pitfalls
-
-3. **User Clarification** (if needed)
-   - Specific patterns to mirror and where to find them?
-   - Integration requirements and where to find them?
 
 ## PRP Generation
 
 Using PRPs/templates/prp_base.md as template:
 
 ### Critical Context to Include and pass to the AI agent as part of the PRP
+
+- **Patterns**: Existing approaches to follow
+- **Subagents**: Check all available agents in .claude/agents/ directory (except expert-orchestrator)
+  - Identify which specialized agents will be needed for the task
+  - List them in the PRP's "Subagents Involved" section
+  - Specify their roles and responsibilities
 - **Documentation**: URLs with specific sections
 - **Code Examples**: Real snippets from codebase
 - **Gotchas**: Library quirks, version issues
-- **Patterns**: Existing approaches to follow
-
 ### Implementation Blueprint
 - Start with pseudocode showing approach
 - Reference real files for patterns
@@ -46,7 +62,7 @@ Using PRPs/templates/prp_base.md as template:
 ruff check --fix && mypy .
 
 # Unit Tests
-uv run pytest tests/ -v
+poetry run pytest tests/ -v
 
 ```
 
@@ -55,7 +71,16 @@ uv run pytest tests/ -v
 *** ULTRATHINK ABOUT THE PRP AND PLAN YOUR APPROACH THEN START WRITING THE PRP ***
 
 ## Output
-Save as: `PRPs/{feature-name}.md`
+1. Save PRP as: `PRPs/{task-id}_{feature-name}.md`
+   Example: `PRPs/TASK-001_baseline_benchmark.md`
+
+2. Create GitHub Issue for tracking:
+   ```bash
+   gh issue create \
+     --title "[{task-id}] {feature-name}" \
+     --body "Task ID: {task-id}\nPRP: PRPs/{task-id}_{feature-name}.md\n\n## Description\n{brief description from PRP}\n\n## Success Criteria\n{list from PRP}" \
+     --label "task"
+   ```
 
 ## Quality Checklist
 - [ ] All necessary context included

@@ -79,6 +79,7 @@ poetry run
 - **Link PRs to Issues** - Use keywords like `Fixes #123` in PR descriptions to auto-close issues when merged.
 - **Create new GitHub Issues** for any sub-tasks or TODOs discovered during development, linking them to the parent issue when applicable.
 - **Follow team's issue closing policy** - Issues typically close on PR merge, not immediately after code completion.
+- **Use GitHub CLI (`gh`) for issue and PR management** - Leverage `gh` commands for creating issues, PRs, and managing workflow efficiently.
 - **For pipeline deliverables**, ensure output files are saved in appropriate directories:
   - `results/baseline/benchmark_results.csv`
   - `results/transfer/transfer_results.csv`

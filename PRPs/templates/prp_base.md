@@ -65,9 +65,28 @@ Template optimized for AI agents to implement features with sufficient context a
 # Example: We use pydantic v2 and  
 ```
 
-## Implementation Blueprint
 
-### Data models and structure
+### Subagents Involved
+```yaml
+# List all subagents that will be used in this PRP
+subagents:
+  - name: [agent-name]
+    role: [what this agent will do]
+    tasks: [specific tasks assigned]
+  
+  - name: [agent-name]
+    role: [what this agent will do]
+    tasks: [specific tasks assigned]
+    
+# Example:
+# - name: tabicl-expert
+#   role: Implement TabICL integration
+#   tasks: ["Setup TabICL models", "Configure in-context learning"]
+#
+# - name: openva-insilico-expert  
+#   role: Configure VA algorithms
+#   tasks: ["Setup InSilicoVA priors", "Implement symptom mappings"]
+```
 
 ### list of Sub-Tasks to be completed to fullfill the PRP in the order they should be completed
 
@@ -89,6 +108,9 @@ Sub-Task N:
 ...
 
 ```
+## Implementation Blueprint
+
+### Data models and structure
 
 
 ### Per Sub-Task pseudocode as needed added to each Sub-Task

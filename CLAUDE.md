@@ -5,7 +5,7 @@
 - **Use consistent naming conventions, file structure, and architecture patterns** as described in this document.
 - **Use venv_linux** (the virtual environment) whenever executing Python commands, including for unit tests.
 - ****CRITICAL:** **Poetry is used for dependency management** - use `poetry install` and `poetry add` for package management.
-- ****CRITICAL:** **Do NOT use mock model/lib/data expect testing**
+- ****CRITICAL:** **Do NOT use mock model/lib/data except testing**
 
 ## Core Principles
 
@@ -30,14 +30,17 @@
 
 ### Essential poetry Commands
 
-poetry run
+- `poetry install` - Install all dependencies
+- `poetry add <package>` - Add a new dependency
+- `poetry run python <script>` - Run Python scripts in the virtual environment
+- `poetry run pytest` - Run tests
 
 ### 🧱 Code Structure & Modularity
 
 - **Never create a file longer than 350 lines of code.** If a file approaches this limit, refactor by splitting it into modules or helper files.
 - **Organize code into clearly separated modules**, grouped by feature or responsibility.
 - **Use clear, consistent imports** (prefer relative imports within packages).
-- **Use peotry** for environment variables.
+- **Use poetry** for environment variables.
 
 ### 🧪 Testing & Reliability
 
@@ -172,7 +175,8 @@ poetry run
 
 ### 🔒 Data Privacy & Security
 
-- **Never assume missing context. Ask questions if uncertain.**
-- **Never hallucinate libraries or functions** – only use known, verified Python packages.
-- **Always confirm file paths and module names** exist before referencing them in code or tests.
+- **Never commit sensitive data** (API keys, passwords, personal information)
+- **Use environment variables** for secrets and configuration
+- **Sanitize logs** to remove sensitive information
+- **Follow GDPR/HIPAA guidelines** when handling medical data
 - **Never delete or overwrite existing code** unless explicitly instructed to or if part of a task

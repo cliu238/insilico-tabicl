@@ -1,6 +1,6 @@
-# Execute BASE PRP
+# Execute BASE PRP (Project Requirement Plan)
 
-Implement a feature using using the PRP file.
+Implement a feature using using the PRP (Project Requirement Plan) file.
 
 ## PRP File: $ARGUMENTS
 

@@ -44,7 +44,7 @@ This document outlines the comprehensive plan for comparing InSilicoVA and TabIC
 ### 3.1 Docker Environment Setup
 ```dockerfile
 # Existing Docker at models/insilico/Dockerfile
-FROM rocker/r-ver:4.x
+FROM rocker/r-ver:4.3.2
 RUN install.packages(c("openVA", "InSilicoVA"))
 ```
 

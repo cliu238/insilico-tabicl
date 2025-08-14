@@ -13,7 +13,6 @@ The AI agent only gets the context you are appending to the PRP and training dat
    - Identify files to reference in PRP
    - Note existing conventions to follow
    - Check test patterns for validation approach
-   - **May use the subagent data-root-cause-analyst** to assist with problem diagnosis and solution/experiments design
 
 2. **External Research**
    - Search for similar features/patterns online

@@ -1,5 +1,16 @@
 # TODO List: InSilicoVA vs TabICL Comparison
 
+## Task Status Indicators
+
+- `[ ]` **Planned**: Task has been identified but work hasn't started
+- `[~]` **In-Process**: Task is actively being worked on or PRP has been generated  
+- `[x]` **Completed**: Task has been fully implemented, tested, and validated
+
+Tasks should progress through these states:
+1. **Planned** → **In-Process**: When PRP is generated or work begins
+2. **In-Process** → **Completed**: When implementation passes all validation gates
+3. If a task is blocked or paused, it remains **In-Process** with a note about the blocker
+
 ## 1. Data Preparation Tasks
 
 ### 1.1 Explore and Validate Datasets

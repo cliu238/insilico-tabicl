@@ -74,7 +74,12 @@ poetry run pytest tests/ -v
 1. Save PRP as: `PRPs/{task-id}_{feature-name}.md`
    Example: `PRPs/TASK-001_baseline_benchmark.md`
 
-2. Create GitHub Issue for tracking:
+2. Update task status in TASK.md to in-process:
+   - Find the task ID in TASK.md
+   - Change `[ ]` to `[~]` to indicate work has started
+   - Example: `- [~] **[TASK-001]** Load and inspect PHMRC child dataset`
+
+3. Create GitHub Issue for tracking:
    ```bash
    gh issue create \
      --title "[{task-id}] {feature-name}" \

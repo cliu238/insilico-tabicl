@@ -1,0 +1,47 @@
+{
+  "name": "claude-flow-multi-agent-orchestration",
+  "version": "1.0.0",
+  "description": "Multi-agent orchestration system for data science workflows",
+  "main": "core/cli.js",
+  "scripts": {
+    "setup": "node db/db-setup.js init",
+    "swarm:init": "node core/cli.js init hierarchical 8 data-science",
+    "swarm:init-parallel": "node core/cli.js init mesh 6 data-science",
+    "swarm:spawn-all": "node core/cli.js batch-spawn",
+    "swarm:status": "node core/cli.js status",
+    "swarm:status-detailed": "node core/cli.js status --detailed",
+    "swarm:list-agents": "node core/cli.js list-agents --detailed",
+    "swarm:cleanup": "node core/cli.js cleanup",
+    "swarm:shutdown": "node core/cli.js shutdown",
+    "swarm:data-analysis": "node core/cli.js orchestrate 'Comprehensive data analysis pipeline' parallel high --show-result",
+    "swarm:ml-pipeline": "node core/cli.js orchestrate 'End-to-end ML model development and evaluation' sequential high --show-result",
+    "swarm:research": "node core/cli.js orchestrate 'Research and comparative analysis' adaptive medium --show-result",
+    "db:reset": "node db/db-setup.js reset",
+    "db:verify": "node db/db-setup.js verify",
+    "db:stats": "node db/db-setup.js stats",
+    "test:basic": "npm run setup && npm run swarm:init && npm run swarm:spawn-all && npm run swarm:status-detailed",
+    "test:orchestration": "npm run test:basic && npm run swarm:data-analysis",
+    "demo": "npm run test:orchestration && npm run swarm:cleanup"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.6",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "multi-agent",
+    "orchestration",
+    "data-science",
+    "automation",
+    "claude",
+    "ai"
+  ],
+  "author": "Claude Multi-Agent System",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "bin": {
+    "swarm": "./core/cli.js"
+  }
+}

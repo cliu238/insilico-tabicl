@@ -1,0 +1,42 @@
+{
+  "name": "claude-flow-multi-agent-system",
+  "version": "1.0.0",
+  "description": "Multi-agent orchestration system for data science workflows",
+  "main": ".claude/core/HiveMind.js",
+  "scripts": {
+    "start": "node .claude/core/cli.js",
+    "setup": "mkdir -p .claude/db .claude/logs && node .claude/db/db-setup.js",
+    "swarm:init": "node .claude/core/cli.js init hierarchical 8",
+    "swarm:spawn-all": "node .claude/core/cli.js spawn-all",
+    "swarm:status": "node .claude/core/cli.js status",
+    "swarm:cleanup": "node .claude/core/cli.js cleanup",
+    "swarm:shutdown": "node .claude/core/cli.js shutdown",
+    "swarm:data-analysis": "node .claude/core/cli.js orchestrate 'PHMRC child data exploration' parallel high",
+    "swarm:ml-pipeline": "node .claude/core/cli.js orchestrate 'Train InSilicoVA and TabICL models' adaptive high",
+    "swarm:research": "node .claude/core/cli.js orchestrate 'Research VA methodologies' hierarchical normal",
+    "db:stats": "node .claude/db/db-setup.js stats",
+    "db:reset": "node .claude/db/db-setup.js reset",
+    "test": "echo \"Tests not implemented yet\" && exit 0",
+    "lint": "echo \"Linting not implemented yet\" && exit 0"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.6",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "keywords": [
+    "multi-agent",
+    "orchestration",
+    "ai",
+    "data-science",
+    "claude",
+    "automation"
+  ],
+  "author": "Claude Code Multi-Agent System",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

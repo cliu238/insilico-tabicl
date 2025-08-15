@@ -1,6 +1,6 @@
-# Execute BASE PRP (Project Requirement Plan)
+# Execute BASE PRP
 
-Implement a feature using using the PRP (Project Requirement Plan) file.
+Implement a feature using using the PRP file.
 
 ## PRP File: $ARGUMENTS
 
@@ -12,18 +12,14 @@ Implement a feature using using the PRP (Project Requirement Plan) file.
    - Follow all instructions in the PRP and extend the research if needed
    - Ensure you have all needed context to implement the PRP fully
    - Do more web searches and codebase exploration as needed
-   - Identify which subagents in `.claude/agents` are needed for the task
-   - Hand all research information, agent lists, and the PRP to the expert-orchestrator subagent
 
 2. **ULTRATHINK**
-   - The expert-orchestrator subagent creates a comprehensive plan addressing all requirements
-   - The expert-orchestrator assigns work to other subagents based on their specializations
-   - Break down complex tasks into smaller, manageable steps using your todos tools
-   - Use the TodoWrite tool to create and track your implementation plan
-   - Identify implementation patterns from existing code to follow
+   - Think hard before you execute the plan. Create a comprehensive plan addressing all requirements.
+   - Break down complex tasks into smaller, manageable steps using your todos tools.
+   - Use the TodoWrite tool to create and track your implementation plan.
+   - Identify implementation patterns from existing code to follow.
 
 3. **Execute the plan**
-   - The expert-orchestrator coordinates with other subagents to execute the implementation
    - Execute the PRP
    - Implement all the code
 

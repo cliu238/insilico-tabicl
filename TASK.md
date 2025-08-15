@@ -14,9 +14,10 @@ Tasks should progress through these states:
 ## 1. Data Preparation Tasks
 
 ### 1.1 Explore and Validate Datasets
-- [ ] **[TASK-001]** Load and inspect PHMRC child dataset
+- [~] **[TASK-001]** Load and inspect PHMRC child dataset
   - Verify file path: `data/raw/PHMRC/IHME_PHMRC_VA_DATA_CHILD_Y2013M09D11_0.csv`
   - Check for gs_text34 column
+  - Check which column should be dropped which column should be feature
   - Document number of cases and causes
   - **Complexity**: Low
   - **Dependencies**: None
@@ -24,6 +25,7 @@ Tasks should progress through these states:
 - [ ] **[TASK-002]** Load and inspect PHMRC neonate dataset
   - Verify file path: `data/raw/PHMRC/IHME_PHMRC_VA_DATA_NEONATE_Y2013M09D11_0.csv`
   - Check for gs_text34 column
+  - Check which column should be dropped which column should be feature
   - Document number of cases and causes
   - **Complexity**: Low
   - **Dependencies**: None

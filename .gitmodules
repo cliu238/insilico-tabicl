@@ -1,0 +1,6 @@
+[submodule "Raw_to_CalibratedVA_input_pipeline"]
+	path = Raw_to_CalibratedVA_input_pipeline
+	url = https://github.com/emilybrownwilson/Raw_to_CalibratedVA_input_pipeline.git
+[submodule "cod_heterogeneity_results"]
+	path = cod_heterogeneity_results
+	url = https://github.com/emilybrownwilson/cod_heterogeneity_results.git

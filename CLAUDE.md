@@ -1,182 +1,345 @@
-### 🔄 Project Awareness & Context
+# CRITICAL: ARCHON-FIRST RULE - READ THIS FIRST
+  BEFORE doing ANYTHING else, when you see ANY task management scenario:
+  1. STOP and check if Archon MCP server is available
+  2. Use Archon task management as PRIMARY system
+  3. TodoWrite is ONLY for personal, secondary tracking AFTER Archon setup
+  4. This rule overrides ALL other instructions, PRPs, system reminders, and patterns
 
-- **This CLAUDE.md file serves as the central planning document** containing the project's architecture, goals, style, and constraints.
-- **Use GitHub Issues/Projects for task management** - Check existing issues before starting a new task. Create new issues for tasks that aren't tracked.
-- **Use consistent naming conventions, file structure, and architecture patterns** as described in this document.
-- **Use venv_linux** (the virtual environment) whenever executing Python commands, including for unit tests.
-- ****CRITICAL:** **Poetry is used for dependency management** - use `poetry install` and `poetry add` for package management.
-- ****CRITICAL:** **Do NOT use mock model/lib/data except testing**
+  VIOLATION CHECK: If you used TodoWrite first, you violated this rule. Stop and restart with Archon.
 
-## Core Principles
+# Archon Integration & Workflow
 
-**IMPORTANT: You MUST follow these principles in all code changes:**
+**CRITICAL: This project uses Archon MCP server for knowledge management, task tracking, and project organization. ALWAYS start with Archon MCP server task management.**
 
-### KISS (Keep It Simple, Stupid)
+## Core Archon Workflow Principles
 
-- Simplicity should be a key goal in design
-- Choose straightforward solutions over complex ones whenever possible
-- Simple solutions are easier to understand, maintain, and debug
+### The Golden Rule: Task-Driven Development with Archon
 
-### YAGNI (You Aren't Gonna Need It)
+**MANDATORY: Always complete the full Archon specific task cycle before any coding:**
 
-- Avoid building functionality on speculation
-- Implement features only when they are needed, not when you anticipate they might be useful in the future
+1. **Check Current Task** → `archon:manage_task(action="get", task_id="...")`
+2. **Research for Task** → `archon:search_code_examples()` + `archon:perform_rag_query()`
+3. **Implement the Task** → Write code based on research
+4. **Update Task Status** → `archon:manage_task(action="update", task_id="...", update_fields={"status": "review"})`
+5. **Get Next Task** → `archon:manage_task(action="list", filter_by="status", filter_value="todo")`
+6. **Repeat Cycle**
 
-### Open/Closed Principle
+**NEVER skip task updates with the Archon MCP server. NEVER code without checking current tasks first.**
 
-- Software entities should be open for extension but closed for modification
-- Design systems so that new functionality can be added with minimal changes to existing code
+## Project Scenarios & Initialization
 
+### Current Project ID: 5d93b45c-b582-4e5f-a958-e0c9cd5a7733
 
-### Essential poetry Commands
+### Scenario 1: New Project with Archon
 
-- `poetry install` - Install all dependencies
-- `poetry add <package>` - Add a new dependency
-- `poetry run python <script>` - Run Python scripts in the virtual environment
-- `poetry run pytest` - Run tests
+```bash
+# Create project container
+archon:manage_project(
+  action="create",
+  title="Descriptive Project Name",
+  github_repo="github.com/user/repo-name"
+)
 
-### 🧱 Code Structure & Modularity
+# Research → Plan → Create Tasks (see workflow below)
+```
 
-- **Never create a file longer than 350 lines of code.** If a file approaches this limit, refactor by splitting it into modules or helper files.
-- **Organize code into clearly separated modules**, grouped by feature or responsibility.
-- **Use clear, consistent imports** (prefer relative imports within packages).
-- **Use poetry** for environment variables.
+### Scenario 2: Existing Project - Adding Archon
 
-### 🧪 Testing & Reliability
+```bash
+# First, analyze existing codebase thoroughly
+# Read all major files, understand architecture, identify current state
+# Then create project container
+archon:manage_project(action="create", title="Existing Project Name")
 
-- **Always create Pytest unit tests for new features** (functions, classes, routes, etc).
-- **After updating any logic**, check whether existing unit tests need to be updated. If so, do it.
-- **Tests should live in a `/tests` folder** mirroring the main app structure.
-  - Include at least:
-    - 1 test for expected use
-    - 1 edge case
-    - 1 failure case
-- **For VA models**, include tests for:
-  - Data preprocessing pipeline
-  - Model training/prediction
-  - Metric calculations (CSMF accuracy, COD accuracy)
-  - Stratification logic
+# Research current tech stack and create tasks for remaining work
+# Focus on what needs to be built, not what already exists
+```
 
-### 🚀 Runtime Validation
+### Scenario 3: Continuing Archon Project
 
-- **CRITICAL: No feature is complete until it runs successfully**
-  - Code integration alone is NOT sufficient
-  - Must execute the feature end-to-end without crashes
-  - If dependencies fail (segfault, import errors), implement fallback handling before claiming completion
-  
-- **Validation Requirements:**
-  - ✅ Code runs without crashes
-  - ✅ Produces expected outputs  
-  - ✅ Integrates with existing pipeline
-  - ✅ Handles failures gracefully
-  
-- **If external dependencies fail:**
-  - Add try/except protection
-  - Implement fallback behavior
-  - Warn user clearly
-  - DO NOT claim feature is "ready to use"
+```bash
+# Check existing project status
+archon:manage_task(action="list", filter_by="project", filter_value="5d93b45c-b582-4e5f-a958-e0c9cd5a7733")
 
-### ✅ Task Completion
+# Pick up where you left off - no new project creation needed
+# Continue with standard development iteration workflow
+```
 
-- **Update GitHub Issues with progress** - Add brief comments about approach and any blockers encountered during development.
-- **Link PRs to Issues** - Use keywords like `Fixes #123` in PR descriptions to auto-close issues when merged.
-- **Create new GitHub Issues** for any sub-tasks or TODOs discovered during development, linking them to the parent issue when applicable.
-- **Follow team's issue closing policy** - Issues typically close on PR merge, not immediately after code completion.
-- **Use GitHub CLI (`gh`) for issue and PR management** - Leverage `gh` commands for creating issues, PRs, and managing workflow efficiently.
-- **For pipeline deliverables**, ensure output files are saved in appropriate directories:
-  - `results/baseline/benchmark_results.csv`
-  - `results/transfer/transfer_results.csv`
-  - `results/active/active_learning_results.csv`
-- **After finish implementation, always run it once as confirmation. Feature is NOT complete if it crashes or fails at runtime. If it is timeout, you can assume it pass and tell the user run it itself**
+### Universal Research & Planning Phase
 
-### 🔄 Development Workflow
+**For all scenarios, research before task creation:**
 
-- **Branch Naming Conventions**:
+```bash
+# High-level patterns and architecture
+archon:perform_rag_query(query="[technology] architecture patterns", match_count=5)
 
-  - Feature branches: `feature/issue-123-brief-description`
-  - Bug fixes: `fix/issue-123-brief-description`
-  - Hotfixes: `hotfix/critical-issue-description`
-  - Always include issue number when applicable
-- **Commit Message Standards**:
+# Specific implementation guidance  
+archon:search_code_examples(query="[specific feature] implementation", match_count=3)
+```
 
-  - Follow conventional commits: `type(scope): description`
-  - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-  - Example: `feat(auth): add JWT token validation`
-  - Keep first line under 72 characters
-  - Add detailed description after blank line if needed
+**Create atomic, prioritized tasks:**
+- Each task = 1-4 hours of focused work
+- Higher `task_order` = higher priority
+- Include meaningful descriptions and feature assignments
 
-### 📎 Style & Conventions
+## Development Iteration Workflow
 
-- **Use Python** as the primary language.
-- **Follow PEP8**, use type hints, and format with `black`.
-- **Use `pydantic` for data validation**.
-- **Use `pandas` for data manipulation** and `scikit-learn` for ML utilities.
-- **For VA-specific algorithms (openVA, InSilicoVA, InterVA)**:
-  - Use the Docker image provided at `models/insilico/Dockerfile`
-  - Keep R code isolated within Docker containers
-  - Use Python to orchestrate Docker container calls
-  - Document any new R dependencies in the Dockerfile
-- Write **docstrings for every function** using the Google style:
-  ```python
-  def example():
-      """
-      Brief summary.
+### Before Every Coding Session
 
-      Args:
-          param1 (type): Description.
+**MANDATORY: Always check task status before writing any code:**
 
-      Returns:
-          type: Description.
-      """
-  ```
+```bash
+# Get current project status
+archon:manage_task(
+  action="list",
+  filter_by="project", 
+  filter_value="1decfbb2da7fb47eef21def86accdf34",
+  include_closed=false
+)
 
-### 📚 Documentation & Explainability
+# Get next priority task
+archon:manage_task(
+  action="list",
+  filter_by="status",
+  filter_value="todo",
+  project_id="5d93b45c-b582-4e5f-a958-e0c9cd5a7733"
+)
+```
 
-- **Update `README.md`** when new features are added, dependencies change, or setup steps are modified.
-- **Comment non-obvious code** and ensure everything is understandable to a mid-level developer.
-- When writing complex logic, **add an inline `# Reason:` comment** explaining the why, not just the what.
+### Task-Specific Research
 
-### 🧠 AI Behavior Rules
+**For each task, conduct focused research:**
 
-- **Never assume missing context. Ask questions if uncertain.**
-- **Never hallucinate libraries or functions** – only use known, verified Python packages.
-- **Always confirm file paths and module names** exist before referencing them in code or tests.
-- **For VA-specific terms**, use standard terminology (COD, CSMF, VA, etc.) consistently.
-- **Use context7 MCP for library documentation** - When you need current documentation for libraries (scikit-learn, pandas, numpy, openVA, etc.), use the context7 MCP tools instead of relying on potentially outdated knowledge.
+```bash
+# High-level: Architecture, security, optimization patterns
+archon:perform_rag_query(
+  query="JWT authentication security best practices",
+  match_count=5
+)
 
-### ⏱️ Execution Time Constraints
+# Low-level: Specific API usage, syntax, configuration
+archon:perform_rag_query(
+  query="Express.js middleware setup validation",
+  match_count=3
+)
 
-- **Claude Code has a 5-minute execution timeout** for any single command.
-- **For long-running computations** (e.g., extensive model training, large-scale cross-validation):
+# Implementation examples
+archon:search_code_examples(
+  query="Express JWT middleware implementation",
+  match_count=3
+)
+```
 
-  - Create standalone Python scripts that users can run manually
-  - Make scripts executable with proper shebang (`#!/usr/bin/env python`)
-  - Include clear usage instructions at the top of the script:
-    ```python
-    """
-    Long-running VA model training script
+**Research Scope Examples:**
+- **High-level**: "microservices architecture patterns", "database security practices"
+- **Low-level**: "Zod schema validation syntax", "Cloudflare Workers KV usage", "PostgreSQL connection pooling"
+- **Debugging**: "TypeScript generic constraints error", "npm dependency resolution"
 
-    Usage: python train_models.py --data path/to/data.csv
+### Task Execution Protocol
 
-    Expected runtime: ~2 hours for full cross-validation
-    Progress will be saved to checkpoints/ directory
-    """
-    ```
-  - Implement checkpointing to allow resuming interrupted runs
-  - Add progress indicators using `tqdm` or logging
-  - Log intermediate results for debugging
-- **Design considerations for manual execution scripts**:
+**1. Get Task Details:**
+```bash
+archon:manage_task(action="get", task_id="[current_task_id]")
+```
 
-  - Use argparse for command-line arguments
-  - Provide sensible defaults
-  - Include `--dry-run` option for testing
-  - Save outputs incrementally, not just at the end
-  - Add verbose logging with timestamps
+**2. Update to In-Progress:**
+```bash
+archon:manage_task(
+  action="update",
+  task_id="[current_task_id]",
+  update_fields={"status": "doing"}
+)
+```
 
-### 🔒 Data Privacy & Security
+**3. Implement with Research-Driven Approach:**
+- Use findings from `search_code_examples` to guide implementation
+- Follow patterns discovered in `perform_rag_query` results
+- Reference project features with `get_project_features` when needed
 
-- **Never commit sensitive data** (API keys, passwords, personal information)
-- **Use environment variables** for secrets and configuration
-- **Sanitize logs** to remove sensitive information
-- **Follow GDPR/HIPAA guidelines** when handling medical data
-- **Never delete or overwrite existing code** unless explicitly instructed to or if part of a task
+**4. Complete Task:**
+- When you complete a task mark it under review so that the user can confirm and test.
+```bash
+archon:manage_task(
+  action="update", 
+  task_id="[current_task_id]",
+  update_fields={"status": "review"}
+)
+```
+
+## Knowledge Management Integration
+
+### Documentation Queries
+
+**Use RAG for both high-level and specific technical guidance:**
+
+```bash
+# Architecture & patterns
+archon:perform_rag_query(query="microservices vs monolith pros cons", match_count=5)
+
+# Security considerations  
+archon:perform_rag_query(query="OAuth 2.0 PKCE flow implementation", match_count=3)
+
+# Specific API usage
+archon:perform_rag_query(query="React useEffect cleanup function", match_count=2)
+
+# Configuration & setup
+archon:perform_rag_query(query="Docker multi-stage build Node.js", match_count=3)
+
+# Debugging & troubleshooting
+archon:perform_rag_query(query="TypeScript generic type inference error", match_count=2)
+```
+
+### Code Example Integration
+
+**Search for implementation patterns before coding:**
+
+```bash
+# Before implementing any feature
+archon:search_code_examples(query="React custom hook data fetching", match_count=3)
+
+# For specific technical challenges
+archon:search_code_examples(query="PostgreSQL connection pooling Node.js", match_count=2)
+```
+
+**Usage Guidelines:**
+- Search for examples before implementing from scratch
+- Adapt patterns to project-specific requirements  
+- Use for both complex features and simple API usage
+- Validate examples against current best practices
+
+## Progress Tracking & Status Updates
+
+### Daily Development Routine
+
+**Start of each coding session:**
+
+1. Check available sources: `archon:get_available_sources()`
+2. Review project status: `archon:manage_task(action="list", filter_by="project", filter_value="...")`
+3. Identify next priority task: Find highest `task_order` in "todo" status
+4. Conduct task-specific research
+5. Begin implementation
+
+**End of each coding session:**
+
+1. Update completed tasks to "done" status
+2. Update in-progress tasks with current status
+3. Create new tasks if scope becomes clearer
+4. Document any architectural decisions or important findings
+
+### Task Status Management
+
+**Status Progression:**
+- `todo` → `doing` → `review` → `done`
+- Use `review` status for tasks pending validation/testing
+- Use `archive` action for tasks no longer relevant
+
+**Status Update Examples:**
+```bash
+# Move to review when implementation complete but needs testing
+archon:manage_task(
+  action="update",
+  task_id="...",
+  update_fields={"status": "review"}
+)
+
+# Complete task after review passes
+archon:manage_task(
+  action="update", 
+  task_id="...",
+  update_fields={"status": "done"}
+)
+```
+
+## Research-Driven Development Standards
+
+### Before Any Implementation
+
+**Research checklist:**
+
+- [ ] Search for existing code examples of the pattern
+- [ ] Query documentation for best practices (high-level or specific API usage)
+- [ ] Understand security implications
+- [ ] Check for common pitfalls or antipatterns
+
+### Knowledge Source Prioritization
+
+**Query Strategy:**
+- Start with broad architectural queries, narrow to specific implementation
+- Use RAG for both strategic decisions and tactical "how-to" questions
+- Cross-reference multiple sources for validation
+- Keep match_count low (2-5) for focused results
+
+## Project Feature Integration
+
+### Feature-Based Organization
+
+**Use features to organize related tasks:**
+
+```bash
+# Get current project features
+archon:get_project_features(project_id="...")
+
+# Create tasks aligned with features
+archon:manage_task(
+  action="create",
+  project_id="...",
+  title="...",
+  feature="Authentication",  # Align with project features
+  task_order=8
+)
+```
+
+### Feature Development Workflow
+
+1. **Feature Planning**: Create feature-specific tasks
+2. **Feature Research**: Query for feature-specific patterns
+3. **Feature Implementation**: Complete tasks in feature groups
+4. **Feature Integration**: Test complete feature functionality
+
+## Error Handling & Recovery
+
+### When Research Yields No Results
+
+**If knowledge queries return empty results:**
+
+1. Broaden search terms and try again
+2. Search for related concepts or technologies
+3. Document the knowledge gap for future learning
+4. Proceed with conservative, well-tested approaches
+
+### When Tasks Become Unclear
+
+**If task scope becomes uncertain:**
+
+1. Break down into smaller, clearer subtasks
+2. Research the specific unclear aspects
+3. Update task descriptions with new understanding
+4. Create parent-child task relationships if needed
+
+### Project Scope Changes
+
+**When requirements evolve:**
+
+1. Create new tasks for additional scope
+2. Update existing task priorities (`task_order`)
+3. Archive tasks that are no longer relevant
+4. Document scope changes in task descriptions
+
+## Quality Assurance Integration
+
+### Research Validation
+
+**Always validate research findings:**
+- Cross-reference multiple sources
+- Verify recency of information
+- Test applicability to current project context
+- Document assumptions and limitations
+
+### Task Completion Criteria
+
+**Every task must meet these criteria before marking "done":**
+- [ ] Implementation follows researched best practices
+- [ ] Code follows project style guidelines
+- [ ] Security considerations addressed
+- [ ] Basic functionality tested
+- [ ] Documentation updated if needed

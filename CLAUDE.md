@@ -1,345 +1,224 @@
-# CRITICAL: ARCHON-FIRST RULE - READ THIS FIRST
-  BEFORE doing ANYTHING else, when you see ANY task management scenario:
-  1. STOP and check if Archon MCP server is available
-  2. Use Archon task management as PRIMARY system
-  3. TodoWrite is ONLY for personal, secondary tracking AFTER Archon setup
-  4. This rule overrides ALL other instructions, PRPs, system reminders, and patterns
+### 🔄 Project Awareness & Context
+- **Always read `PLANNING.md`** at the start of a new conversation to understand the project's architecture, goals, style, and constraints.
+- **Check `TASK.md`** before starting a new task. If the task isn’t listed, add it with a brief description and today's date.
+- **Use consistent naming conventions, file structure, and architecture patterns** as described in `PLANNING.md`.
+- **Use Python 3.12+** as specified in pyproject.toml (currently configured for >=3.12,<3.13)
+- **Use Poetry** for all dependency management and virtual environment handling
+- **Run Python commands through Poetry** (e.g., `poetry run python`, `poetry run pytest`)
+- **Always read `insilicova_pipeline_trace.md` as guide**
+- ******IMPORNTATN******!!!!!!!!! EVERYTIME YOU GOT A ERROR OR HAVE A PROBLEM, CONSULT WITH `insilicova_pipeline_trace.md` first
+### 🧱 Code Structure & Modularity
+- **Never create a file longer than 500 lines of code.** If a file approaches this limit, refactor by splitting it into modules or helper files.
+- **Organize code into clearly separated modules**, grouped by feature or responsibility.
+  For agents this looks like:
+    - `agent.py` - Main agent definition and execution logic 
+    - `tools.py` - Tool functions used by the agent 
+    - `prompts.py` - System prompts
+- **Use clear, consistent imports** (prefer relative imports within packages).
 
-  VIOLATION CHECK: If you used TodoWrite first, you violated this rule. Stop and restart with Archon.
+### 🧪 Testing & Reliability
+- **Always create Pytest unit tests for new features** (functions, classes, routes, etc).
+- **After updating any logic**, check whether existing unit tests need to be updated. If so, do it.
+- **Tests should live in a `/tests` folder** mirroring the main app structure.
+  - Include at least:
+    - 1 test for expected use
+    - 1 edge case
+    - 1 failure case
 
-# Archon Integration & Workflow
+### ✅ Task Completion
+- **Mark completed tasks in `TASK.md`** immediately after finishing them.
+- Add new sub-tasks or TODOs discovered during development to `TASK.md` under a “Discovered During Work” section.
 
-**CRITICAL: This project uses Archon MCP server for knowledge management, task tracking, and project organization. ALWAYS start with Archon MCP server task management.**
+### 📎 Style & Conventions
+- **Use Python** as the primary language.
+- **Follow PEP8**, use type hints, and format with `black`.
+- **Use `pydantic` for data validation**.
+- Write **docstrings for every function** using the Google style:
+  ```python
+  def example():
+      """
+      Brief summary.
 
-## Core Archon Workflow Principles
+      Args:
+          param1 (type): Description.
 
-### The Golden Rule: Task-Driven Development with Archon
+      Returns:
+          type: Description.
+      """
+  ```
 
-**MANDATORY: Always complete the full Archon specific task cycle before any coding:**
+### 📚 Documentation & Explainability
+- **Update `README.md`** when new features are added, dependencies change, or setup steps are modified.
+- **Comment non-obvious code** and ensure everything is understandable to a mid-level developer.
+- When writing complex logic, **add an inline `# Reason:` comment** explaining the why, not just the what.
 
-1. **Check Current Task** → `archon:manage_task(action="get", task_id="...")`
-2. **Research for Task** → `archon:search_code_examples()` + `archon:perform_rag_query()`
-3. **Implement the Task** → Write code based on research
-4. **Update Task Status** → `archon:manage_task(action="update", task_id="...", update_fields={"status": "review"})`
-5. **Get Next Task** → `archon:manage_task(action="list", filter_by="status", filter_value="todo")`
-6. **Repeat Cycle**
+### 🧠 AI Behavior Rules
+- **Never assume missing context. Ask questions if uncertain.**
+- **Never hallucinate libraries or functions** – only use known, verified Python packages.
+- **Always confirm file paths and module names** exist before referencing them in code or tests.
+- **Never delete or overwrite existing code** unless explicitly instructed to or if part of a task from `TASK.md`.
 
-**NEVER skip task updates with the Archon MCP server. NEVER code without checking current tasks first.**
 
-## Project Scenarios & Initialization
+# Development Guidelines
 
-### Current Project ID: 5d93b45c-b582-4e5f-a958-e0c9cd5a7733
+## Philosophy
 
-### Scenario 1: New Project with Archon
+### Core Beliefs
 
-```bash
-# Create project container
-archon:manage_project(
-  action="create",
-  title="Descriptive Project Name",
-  github_repo="github.com/user/repo-name"
-)
+- **Incremental progress over big bangs** - Small changes that compile and pass tests
+- **Learning from existing code** - Study and plan before implementing
+- **Pragmatic over dogmatic** - Adapt to project reality
+- **Clear intent over clever code** - Be boring and obvious
 
-# Research → Plan → Create Tasks (see workflow below)
+### Simplicity Means
+
+- Single responsibility per function/class
+- Avoid premature abstractions
+- No clever tricks - choose the boring solution
+- If you need to explain it, it's too complex
+
+## Process
+
+### 1. Planning & Staging
+
+Break complex work into 3-5 stages. Document in `IMPLEMENTATION_PLAN.md`:
+
+```markdown
+## Stage N: [Name]
+**Goal**: [Specific deliverable]
+**Success Criteria**: [Testable outcomes]
+**Tests**: [Specific test cases]
+**Status**: [Not Started|In Progress|Complete]
 ```
+- Update status as you progress
+- Remove file when all stages are done
 
-### Scenario 2: Existing Project - Adding Archon
-
-```bash
-# First, analyze existing codebase thoroughly
-# Read all major files, understand architecture, identify current state
-# Then create project container
-archon:manage_project(action="create", title="Existing Project Name")
-
-# Research current tech stack and create tasks for remaining work
-# Focus on what needs to be built, not what already exists
-```
-
-### Scenario 3: Continuing Archon Project
-
-```bash
-# Check existing project status
-archon:manage_task(action="list", filter_by="project", filter_value="5d93b45c-b582-4e5f-a958-e0c9cd5a7733")
-
-# Pick up where you left off - no new project creation needed
-# Continue with standard development iteration workflow
-```
-
-### Universal Research & Planning Phase
-
-**For all scenarios, research before task creation:**
-
-```bash
-# High-level patterns and architecture
-archon:perform_rag_query(query="[technology] architecture patterns", match_count=5)
-
-# Specific implementation guidance  
-archon:search_code_examples(query="[specific feature] implementation", match_count=3)
-```
-
-**Create atomic, prioritized tasks:**
-- Each task = 1-4 hours of focused work
-- Higher `task_order` = higher priority
-- Include meaningful descriptions and feature assignments
-
-## Development Iteration Workflow
-
-### Before Every Coding Session
-
-**MANDATORY: Always check task status before writing any code:**
-
-```bash
-# Get current project status
-archon:manage_task(
-  action="list",
-  filter_by="project", 
-  filter_value="1decfbb2da7fb47eef21def86accdf34",
-  include_closed=false
-)
-
-# Get next priority task
-archon:manage_task(
-  action="list",
-  filter_by="status",
-  filter_value="todo",
-  project_id="5d93b45c-b582-4e5f-a958-e0c9cd5a7733"
-)
-```
-
-### Task-Specific Research
-
-**For each task, conduct focused research:**
+### 2. Implementation Flow
 
-```bash
-# High-level: Architecture, security, optimization patterns
-archon:perform_rag_query(
-  query="JWT authentication security best practices",
-  match_count=5
-)
+1. **Understand** - Study existing patterns in codebase
+2. **Test** - Write test first (red)
+3. **Implement** - Minimal code to pass (green)
+4. **Refactor** - Clean up with tests passing
+5. **Commit** - With clear message linking to plan
 
-# Low-level: Specific API usage, syntax, configuration
-archon:perform_rag_query(
-  query="Express.js middleware setup validation",
-  match_count=3
-)
+### 3. When Stuck (After 3 Attempts)
 
-# Implementation examples
-archon:search_code_examples(
-  query="Express JWT middleware implementation",
-  match_count=3
-)
-```
+**CRITICAL**: Maximum 3 attempts per issue, then STOP.
 
-**Research Scope Examples:**
-- **High-level**: "microservices architecture patterns", "database security practices"
-- **Low-level**: "Zod schema validation syntax", "Cloudflare Workers KV usage", "PostgreSQL connection pooling"
-- **Debugging**: "TypeScript generic constraints error", "npm dependency resolution"
+1. **Document what failed**:
+   - What you tried
+   - Specific error messages
+   - Why you think it failed
 
-### Task Execution Protocol
+2. **Research alternatives**:
+   - Find 2-3 similar implementations
+   - Note different approaches used
 
-**1. Get Task Details:**
-```bash
-archon:manage_task(action="get", task_id="[current_task_id]")
-```
-
-**2. Update to In-Progress:**
-```bash
-archon:manage_task(
-  action="update",
-  task_id="[current_task_id]",
-  update_fields={"status": "doing"}
-)
-```
-
-**3. Implement with Research-Driven Approach:**
-- Use findings from `search_code_examples` to guide implementation
-- Follow patterns discovered in `perform_rag_query` results
-- Reference project features with `get_project_features` when needed
-
-**4. Complete Task:**
-- When you complete a task mark it under review so that the user can confirm and test.
-```bash
-archon:manage_task(
-  action="update", 
-  task_id="[current_task_id]",
-  update_fields={"status": "review"}
-)
-```
+3. **Question fundamentals**:
+   - Is this the right abstraction level?
+   - Can this be split into smaller problems?
+   - Is there a simpler approach entirely?
 
-## Knowledge Management Integration
-
-### Documentation Queries
+4. **Try different angle**:
+   - Different library/framework feature?
+   - Different architectural pattern?
+   - Remove abstraction instead of adding?
 
-**Use RAG for both high-level and specific technical guidance:**
+## Technical Standards
 
-```bash
-# Architecture & patterns
-archon:perform_rag_query(query="microservices vs monolith pros cons", match_count=5)
+### Architecture Principles
 
-# Security considerations  
-archon:perform_rag_query(query="OAuth 2.0 PKCE flow implementation", match_count=3)
+- **Composition over inheritance** - Use dependency injection
+- **Interfaces over singletons** - Enable testing and flexibility
+- **Explicit over implicit** - Clear data flow and dependencies
+- **Test-driven when possible** - Never disable tests, fix them
 
-# Specific API usage
-archon:perform_rag_query(query="React useEffect cleanup function", match_count=2)
+### Code Quality
 
-# Configuration & setup
-archon:perform_rag_query(query="Docker multi-stage build Node.js", match_count=3)
+- **Every commit must**:
+  - Compile successfully
+  - Pass all existing tests
+  - Include tests for new functionality
+  - Follow project formatting/linting
 
-# Debugging & troubleshooting
-archon:perform_rag_query(query="TypeScript generic type inference error", match_count=2)
-```
-
-### Code Example Integration
+- **Before committing**:
+  - Run formatters/linters
+  - Self-review changes
+  - Ensure commit message explains "why"
 
-**Search for implementation patterns before coding:**
+### Error Handling
 
-```bash
-# Before implementing any feature
-archon:search_code_examples(query="React custom hook data fetching", match_count=3)
+- Fail fast with descriptive messages
+- Include context for debugging
+- Handle errors at appropriate level
+- Never silently swallow exceptions
 
-# For specific technical challenges
-archon:search_code_examples(query="PostgreSQL connection pooling Node.js", match_count=2)
-```
+## Decision Framework
 
-**Usage Guidelines:**
-- Search for examples before implementing from scratch
-- Adapt patterns to project-specific requirements  
-- Use for both complex features and simple API usage
-- Validate examples against current best practices
+When multiple valid approaches exist, choose based on:
 
-## Progress Tracking & Status Updates
+1. **Testability** - Can I easily test this?
+2. **Readability** - Will someone understand this in 6 months?
+3. **Consistency** - Does this match project patterns?
+4. **Simplicity** - Is this the simplest solution that works?
+5. **Reversibility** - How hard to change later?
 
-### Daily Development Routine
+## Project Integration
 
-**Start of each coding session:**
+### Learning the Codebase
 
-1. Check available sources: `archon:get_available_sources()`
-2. Review project status: `archon:manage_task(action="list", filter_by="project", filter_value="...")`
-3. Identify next priority task: Find highest `task_order` in "todo" status
-4. Conduct task-specific research
-5. Begin implementation
+- Find 3 similar features/components
+- Identify common patterns and conventions
+- Use same libraries/utilities when possible
+- Follow existing test patterns
 
-**End of each coding session:**
+### Tooling
 
-1. Update completed tasks to "done" status
-2. Update in-progress tasks with current status
-3. Create new tasks if scope becomes clearer
-4. Document any architectural decisions or important findings
+- Use project's existing build system
+- Use project's test framework
+- Use project's formatter/linter settings
+- Don't introduce new tools without strong justification
 
-### Task Status Management
+## Quality Gates
 
-**Status Progression:**
-- `todo` → `doing` → `review` → `done`
-- Use `review` status for tasks pending validation/testing
-- Use `archive` action for tasks no longer relevant
+### Definition of Done
 
-**Status Update Examples:**
-```bash
-# Move to review when implementation complete but needs testing
-archon:manage_task(
-  action="update",
-  task_id="...",
-  update_fields={"status": "review"}
-)
+- [ ] Tests written and passing
+- [ ] Code follows project conventions
+- [ ] No linter/formatter warnings
+- [ ] Commit messages are clear
+- [ ] Implementation matches plan
+- [ ] No TODOs without issue numbers
 
-# Complete task after review passes
-archon:manage_task(
-  action="update", 
-  task_id="...",
-  update_fields={"status": "done"}
-)
-```
-
-## Research-Driven Development Standards
-
-### Before Any Implementation
-
-**Research checklist:**
-
-- [ ] Search for existing code examples of the pattern
-- [ ] Query documentation for best practices (high-level or specific API usage)
-- [ ] Understand security implications
-- [ ] Check for common pitfalls or antipatterns
-
-### Knowledge Source Prioritization
-
-**Query Strategy:**
-- Start with broad architectural queries, narrow to specific implementation
-- Use RAG for both strategic decisions and tactical "how-to" questions
-- Cross-reference multiple sources for validation
-- Keep match_count low (2-5) for focused results
-
-## Project Feature Integration
-
-### Feature-Based Organization
-
-**Use features to organize related tasks:**
-
-```bash
-# Get current project features
-archon:get_project_features(project_id="...")
-
-# Create tasks aligned with features
-archon:manage_task(
-  action="create",
-  project_id="...",
-  title="...",
-  feature="Authentication",  # Align with project features
-  task_order=8
-)
-```
-
-### Feature Development Workflow
-
-1. **Feature Planning**: Create feature-specific tasks
-2. **Feature Research**: Query for feature-specific patterns
-3. **Feature Implementation**: Complete tasks in feature groups
-4. **Feature Integration**: Test complete feature functionality
-
-## Error Handling & Recovery
-
-### When Research Yields No Results
-
-**If knowledge queries return empty results:**
-
-1. Broaden search terms and try again
-2. Search for related concepts or technologies
-3. Document the knowledge gap for future learning
-4. Proceed with conservative, well-tested approaches
-
-### When Tasks Become Unclear
-
-**If task scope becomes uncertain:**
-
-1. Break down into smaller, clearer subtasks
-2. Research the specific unclear aspects
-3. Update task descriptions with new understanding
-4. Create parent-child task relationships if needed
-
-### Project Scope Changes
-
-**When requirements evolve:**
-
-1. Create new tasks for additional scope
-2. Update existing task priorities (`task_order`)
-3. Archive tasks that are no longer relevant
-4. Document scope changes in task descriptions
-
-## Quality Assurance Integration
-
-### Research Validation
-
-**Always validate research findings:**
-- Cross-reference multiple sources
-- Verify recency of information
-- Test applicability to current project context
-- Document assumptions and limitations
-
-### Task Completion Criteria
-
-**Every task must meet these criteria before marking "done":**
-- [ ] Implementation follows researched best practices
-- [ ] Code follows project style guidelines
-- [ ] Security considerations addressed
-- [ ] Basic functionality tested
-- [ ] Documentation updated if needed
+### Test Guidelines
+
+- Test behavior, not implementation
+- One assertion per test when possible
+- Clear test names describing scenario
+- Use existing test utilities/helpers
+- Tests should be deterministic
+
+## Important Reminders
+
+**NEVER**:
+- Use `--no-verify` to bypass commit hooks
+- Disable tests instead of fixing them
+- Commit code that doesn't compile
+- Make assumptions - verify with existing code
+
+**ALWAYS**:
+- Commit working code incrementally
+- Update plan documentation as you go
+- Learn from existing implementations
+- Stop after 3 failed attempts and reassess
+
+## InSilicoVA Pipeline Implementation Notes
+
+### Key Learnings
+- Use pre-formatted openVA data from `Raw_to_CalibratedVA_input_pipeline/Data/CHAMPSVAdata_openVA_fmt.csv`
+- This data already has the correct WHO2016 format columns expected by InSilicoVA
+- Direct calls to `codeVA()` work better than nested function calls
+- The pipeline processes ~4,500 VA cases across 7 sites
+- MCMC iterations (10,000) take 10-20 minutes to complete
+
+- if you need to install any package, please install it, never skip it
